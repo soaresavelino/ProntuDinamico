@@ -9,10 +9,22 @@ services:
       - "27017:27017"
     volumes:
       - mongo_data:/data/db
-      - ./data:/docker-entrypoint-initdb.d/json:ro
-      - ./mongo-init.sh:/docker-entrypoint-initdb.d/mongo-init.sh:ro
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  seed:
+    build: .
+    container_name: prontu_seed
+    command: python seed.py
+    depends_on:
+      mongo:
+        condition: service_healthy
     environment:
-      MONGO_INITDB_DATABASE: prontu_db
+      MONGO_URI: mongodb://mongo:27017/
+    restart: "no"
 
   app:
     build: .
@@ -20,7 +32,10 @@ services:
     ports:
       - "5000:5000"
     depends_on:
-      - mongo
+      mongo:
+        condition: service_healthy
+      seed:
+        condition: service_completed_successfully
     environment:
       MONGO_URI: mongodb://mongo:27017/
     volumes:
