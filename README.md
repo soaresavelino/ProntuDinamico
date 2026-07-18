@@ -132,10 +132,10 @@ Existem duas formas de rodar o projeto: com **Docker** (recomendado, já sobe o 
 
 ```bash
 # 1. Clone o repositório
-git clone https://github.com/seu-usuario/prontu_dinamico.git
-cd prontu_dinamico
+git clone https://github.com/soaresavelino/ProntuDinamico.git
+cd ProntuDinamico
 
-# 2. Suba tudo com um único comando
+# 2. Suba tudo com um único comando (constrói a imagem e importa o banco)
 docker compose up --build
 ```
 
@@ -172,8 +172,8 @@ docker compose down -v
 ### 1. Clone o repositório
 
 ```bash
-git clone https://github.com/seu-usuario/prontu_dinamico.git
-cd prontu_dinamico
+git clone https://github.com/soaresavelino/ProntuDinamico.git
+cd ProntuDinamico
 ```
 
 ### 2. Crie e ative o ambiente virtual
