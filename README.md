@@ -89,7 +89,7 @@ Documento polimórfico — cada especialidade gera uma estrutura diferente em `a
   "paciente_genero": "Masculino",
   "paciente_contato": "(31) 99999-9999",
   "medico_id": "ObjectId do médico",
-  "medico_nome": "Dr. Gabriel",
+  "medico_nome": "Gabriel Soares Avelino",
   "especialidade": "Ortopedia",
   "data_consulta": "18/07/2025 14:30",
   "imagem_url": "/static/uploads/exame.jpg",
