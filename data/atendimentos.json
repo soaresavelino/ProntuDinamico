@@ -1,0 +1,234 @@
+[
+  {
+    "_id": "6a5b8f893c7ecd0fad88766e",
+    "paciente_nome": "Neymar Da Silva Santos Junior",
+    "paciente_cpf": "12345678910",
+    "paciente_idade": "34",
+    "paciente_genero": "Masculino",
+    "paciente_contato": "(11) 99999-1010",
+    "medico_id": "6a5b80497e0e47138b3391df",
+    "medico_nome": "Gabriel Soares Avelino",
+    "especialidade": "Psiquiatria",
+    "data_consulta": "02/06/2026 11:36",
+    "imagem_url": null,
+    "anamnese_dinamica": {
+      "relatorio_comportamental": "Paciente relata episódios recorrentes de ansiedade aguda, acompanhados de insônia inicial e irritabilidade há cerca de três meses, associados a estresse profissional, perder a copa pra Noruega o deixou em estado debilitado."
+    }
+  },
+  {
+    "_id": "6a5b909f3c7ecd0fad887678",
+    "paciente_nome": "José da Silva Costa",
+    "paciente_cpf": "33005518035",
+    "paciente_idade": "64",
+    "paciente_genero": "Masculino",
+    "paciente_contato": "(31) 97899-1010",
+    "medico_id": "6a5b8fc23c7ecd0fad887674",
+    "medico_nome": "Ian Baptista",
+    "especialidade": "Ortopedia",
+    "data_consulta": "08/06/2026 11:41",
+    "imagem_url": "/static/uploads/1784385695.21988_Tornozelo_direito_regiao_do_maleolo_lateral._Jose_da_Silva_Costa.jpg",
+    "anamnese_dinamica": {
+      "membro_afetado": "Tornozelo direito (região do maléolo lateral). ",
+      "nivel_dor": "8",
+      "historico_trauma": "Sim. Paciente relata entorse no tornozelo após queda da própria altura durante atividade física há cerca de duas horas. Apresenta edema localizado, equimose em região lateral e incapacidade de descarregar o peso sobre o membro. Solicitado raio-X de tornozelo (AP e Perfil) para descartar fratura e iniciado protocolo de imobilização provisória e manejo da dor."
+    }
+  },
+  {
+    "_id": "6a5b92553c7ecd0fad887680",
+    "paciente_nome": "Lionel Andrés Messi Cuccittini",
+    "paciente_cpf": "12313312344",
+    "paciente_idade": "39",
+    "paciente_genero": "Masculino",
+    "paciente_contato": "(31) 99158-2000",
+    "medico_id": "6a5b90fd3c7ecd0fad88767a",
+    "medico_nome": "kaua",
+    "especialidade": "Dermatologia",
+    "data_consulta": "18/07/2026 11:48",
+    "imagem_url": "/static/uploads/1784386133.873672_cotovelomessi.png",
+    "anamnese_dinamica": {
+      "tipo_lesao": "eritemato-descamativa com bordas bem delimitadas.",
+      "regiao_corpo": "Região extensora do cotovelo esquerdo.",
+      "conduta_diagnostica": "Paciente relata surgimento da placa há cerca de duas semanas, acompanhada de prurido leve e descamação prateada. Quadro clínico altamente sugestivo de Psoríase vulgar. Orientado uso de corticoide tópico de média potência duas vezes ao dia e hidratação intensa local. Solicitada foto de controle para anexar ao prontuário e acompanhar regressão da placa na próxima consulta."
+    }
+  },
+  {
+    "_id": "6a5b94fd3c7ecd0fad887695",
+    "paciente_nome": "Shakira Isabel Mebarak Ripoll",
+    "paciente_cpf": "14325242124",
+    "paciente_idade": "49",
+    "paciente_genero": "Feminino",
+    "paciente_contato": "(31) 99337-1764",
+    "medico_id": "6a5b94ab3c7ecd0fad887691",
+    "medico_nome": "Michael Joseph Jackson",
+    "especialidade": "Odontologia",
+    "data_consulta": "11/01/2026 10:00",
+    "imagem_url": "/static/uploads/1784386813.674069_dente.jpg",
+    "anamnese_dinamica": {
+      "dente_acometido": "Elemento 36 (Primeiro molar inferior esquerdo).",
+      "procedimento_realizado": "Cárie profunda com acometimento pulpar (Necessidade de Endodontia / Canal).",
+      "evolucao_odonto": "Paciente compareceu à consulta queixando-se de dor aguda, pulsátil e localizada no elemento 36, que piora com estímulos térmicos (frio e calor). Ao exame clínico e radiográfico, constatou-se lesão de cárie extensa atingindo a câmara pulpar. Realizada a abertura coronária, pulpotomia de urgência para alívio imediato da dor e colocação de curativo de demora. Agendada próxima sessão para instrumentação e obturação definitiva dos condutos radiculares."
+    }
+  },
+  {
+    "_id": "6a5b9ad4852a03ebe0d7261b",
+    "paciente_nome": "Ayrton Senna da Silva",
+    "paciente_cpf": "62364672724",
+    "medico_id": "6a5b98b342656381b61e2c67",
+    "paciente_idade": "30",
+    "paciente_genero": "Masculino",
+    "paciente_contato": "(11) 98657-7010",
+    "medico_nome": " Camille Silva Oliveira",
+    "especialidade": "Cardiologia",
+    "data_consulta": "24/07/1991 12:25",
+    "imagem_url": "/static/uploads/1784388308.798783_coracao.jpg",
+    "anamnese_dinamica": {
+      "pressao_arterial": "130/85 mmHg",
+      "frequencia_cardiaca": "74 bpm",
+      "laudo_ecg": "Registro eletrocardiográfico focado na análise das derivações precordiais (V2 a V6). Ritmo regular com frequência cardíaca média de 74 bpm. Presença de discretos artefatos de linha de base por tremor muscular ou interferência de eletrodo nas derivações inferiores (conforme indicado pelas demarcações no traçado de V6), sem prejuízo para a interpretação clínica. Complexos QRS com duração normal e progressão adequada da onda R nas derivações anteriores. Ausência de desvios patológicos do segmento ST ou inversões agudas de onda T. Conclusão: Traçado eletrocardiográfico dentro dos limites da normalidade, com artefatos técnicos isolados."
+    }
+  },
+  {
+    "_id": "6a5b9b5e00c394725043cc2b",
+    "paciente_nome": "Taylor Alison Swift",
+    "paciente_cpf": "77777777777",
+    "medico_id": "6a5b90fd3c7ecd0fad88767a",
+    "medico_nome": "kaua",
+    "paciente_idade": "36",
+    "paciente_genero": "Masculino",
+    "paciente_contato": "(31) 97899-1140",
+    "especialidade": "Dermatologia",
+    "data_consulta": "18/07/2026 12:40",
+    "imagem_url": "/static/uploads/queimadura.webp",
+    "anamnese_dinamica": {
+      "tipo_lesao": "Queimadura solar de 1º grau difusa",
+      "regiao_corpo": "Região dorsal e ombros",
+      "conduta_diagnostica": "Paciente relata exposição solar prolongada sem uso de fotoprotetor adequado durante treino. Apresenta eritema intenso e ardência local. Orientado interrupção de exposição, hidratação oral vigorosa e uso de loções calantes pós-sol."
+    }
+  },
+  {
+    "_id": "6a5ba18e00c394725043cc34",
+    "paciente_nome": "William Bradley Pitt (Brad Pitt)",
+    "paciente_cpf": "99933322211",
+    "paciente_idade": "62",
+    "paciente_genero": "Masculino",
+    "paciente_contato": "(21) 98888-2020",
+    "medico_id": "6a5b90fd3c7ecd0fad88767a",
+    "medico_nome": "kaua",
+    "especialidade": "Dermatologia",
+    "data_consulta": "14/07/2026 12:52",
+    "imagem_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcStNC3G8TVNo75zBO6ch-t3wEa8sUuZP1zMAU6ZHV93hER9VY2NzytGtPcH&s=10",
+    "anamnese_dinamica": {
+      "tipo_lesao": "Melanose solar e ceratose actínica leve",
+      "regiao_corpo": "Região zigomática face bilateral e antebraços",
+      "conduta_diagnostica": "Paciente refere surgimento de pequenas máculas acastanhadas e áreas levemente ásperas em hemiface direita e braços. Ao exame clínico com dermatoscópio, evidenciam-se sinais de fotoenvelhecimento cronológico. Realizada criocirurgia com nitrogênio líquido nas lesões actínicas pré-malignas e prescrito protetor solar FPS 60 com cor para uso diário."
+    }
+  },
+  {
+    "_id": "6a5ba24000c394725043cc36",
+    "paciente_nome": "Selena Marie Gomez",
+    "paciente_cpf": "44455566622",
+    "paciente_idade": "33",
+    "paciente_genero": "Feminino",
+    "paciente_contato": "(11) 97777-3344",
+    "medico_id": "6a5b80497e0e47138b3391df",
+    "medico_nome": "Gabriel Soares Avelino",
+    "especialidade": "Psiquiatria",
+    "data_consulta": "01/07/2026 13:40",
+    "imagem_url": null,
+    "anamnese_dinamica": {
+      "relatorio_comportamental": "Paciente comparece à consulta de acompanhamento relatando boa estabilização do humor nas últimas semanas. Nega episódios de oscilação abrupta ou ideação de caráter depressivo. Relata melhora significativa no padrão de sono e na capacidade de foco durante as atividades profissionais diárias.",
+      "diagnostico_hipotese": "Transtorno Afetivo Bipolar em remissão clínica atual.",
+      "conduta_terapeutica": "Mantida a posologia atual dos estabilizadores de humor. Orientado manter psicoterapia semanal focada em manejo do estresse e higiene do sono rigorosa. Retorno agendado para 60 dias."
+    }
+  },
+  {
+    "_id": "6a5ba25100c394725043cc38",
+    "paciente_nome": "James Eugene Carrey (Jim Carrey)",
+    "paciente_cpf": "88811122299",
+    "paciente_idade": "64",
+    "paciente_genero": "Masculino",
+    "paciente_contato": "(21) 96666-5544",
+    "medico_id": "6a5b80497e0e47138b3391df",
+    "medico_nome": "Gabriel Soares Avelino",
+    "especialidade": "Psiquiatria",
+    "data_consulta": "06/06/2026 13:55",
+    "imagem_url": null,
+    "anamnese_dinamica": {
+      "relatorio_comportamental": "Paciente queixa-se de episódios recorrentes de anedonia crônica e períodos de fadiga acentuada sem causa física aparente, alternados com alta expressividade artística. Refere que a meditação e o envolvimento com artes plásticas têm servido como mecanismos de suporte.",
+      "diagnostico_hipotese": "Transtorno Depressivo Maior, episódio atual leve.",
+      "conduta_terapeutica": "Ajuste fino na dosagem do antidepressivo para otimização do nível de energia matinal. Estimulado a manter as práticas integrativas e atividades expressivas. Retorno em 30 dias para reavaliação de sintomas."
+    }
+  },
+  {
+    "_id": "6a5ba71700c394725043cc3f",
+    "paciente_nome": "Erling Braut Haaland",
+    "paciente_cpf": "22233344455",
+    "paciente_idade": "25",
+    "paciente_genero": "Masculino",
+    "paciente_contato": "(11) 95785-9988",
+    "medico_id": "6a5b94ab3c7ecd0fad887691",
+    "medico_nome": "Michael Joseph Jackson",
+    "especialidade": "Odontologia",
+    "data_consulta": "10/07/2026 15:10",
+    "imagem_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS7QD3ixCVCIASd7uFWhTQ1ObxhNUD4StXBwQByVkUZHw&s=10",
+    "anamnese_dinamica": {
+      "queixa_principal": "Paciente atleta profissional solicita confecção de dispositivo de proteção intraoral para prevenção de traumas dentofaciais durante os jogos.",
+      "exame_clinico_odonto": "Dentição permanente completa, excelente saúde periodontal e ausência de lesões de cárie ativas. Arcos dentários bem alinhados.",
+      "plano_tratamento": "Realizada moldagem de alta precisão do arco superior com alginato e vazamento em gesso especial. O modelo foi encaminhado ao laboratório para plastificação a vácuo de placa de acetato/silicone de 4mm multicamadas. Agendada consulta de entrega para ajuste fino da oclusão e desimpedimento das vias aéreas."
+    }
+  },
+  {
+    "_id": "6a5ba5d300c394725043cc3d",
+    "paciente_nome": "Thomas Cruise Mapother IV (Tom Cruise)",
+    "paciente_cpf": "55544433322",
+    "paciente_idade": "64",
+    "paciente_genero": "Masculino",
+    "paciente_contato": "(21) 95555-4433",
+    "medico_id": "6a5b8fc23c7ecd0fad887674",
+    "medico_nome": "Ian Baptista",
+    "especialidade": "Ortopedia",
+    "data_consulta": "01/06/2026 10:25",
+    "imagem_url": "https://diegoariel.com.br/uploads/images/Antebra%C3%A7o_6.jpg",
+    "anamnese_dinamica": {
+      "mecanismo_trauma": "Queda de altura (aproximadamente 2 metros) sobre o membro superior esquerdo estendido durante gravação de cena de ação.",
+      "exame_fisico_orto": "Deformidade visível em terço médio do antebraço esquerdo, dor intensa à movimentação, edema e limitação funcional completa.",
+      "conduta_ortopedica": "Raio-X confirma fratura completa e desalinhada dos ossos rádio e ulna esquerdos. Realizada imobilização provisória com tala gessada e encaminhado para o bloco cirúrgico."
+    }
+  },
+  {
+    "_id": "6a5bbf66ef2cdd500c8da3a7",
+    "paciente_nome": "Pedro",
+    "paciente_cpf": "12332321131",
+    "paciente_idade": "22",
+    "paciente_genero": "Masculino",
+    "paciente_contato": "(31) 44444-4444",
+    "medico_id": "6a5b90fd3c7ecd0fad88767a",
+    "medico_nome": "kaua\n",
+    "especialidade": "Dermatologia",
+    "data_consulta": "18/07/2026 15:01",
+    "imagem_url": null,
+    "anamnese_dinamica": {
+      "tipo_lesao": "13231313322142",
+      "regiao_corpo": "1232113231221213",
+      "conduta_diagnostica": "qweqweqweqweqwewqwew"
+    }
+  },
+  {
+    "_id": "6a5bcdf39eaa4cfdcb45efc2",
+    "paciente_nome": "Shakira Isabel Mebarak Ripoll",
+    "paciente_cpf": "123456714",
+    "paciente_idade": "44",
+    "paciente_genero": "Feminino",
+    "paciente_contato": "(31) 44444-4444",
+    "medico_id": "6a5b8fc23c7ecd0fad887674",
+    "medico_nome": "Ian Baptista",
+    "especialidade": "Ortopedia",
+    "data_consulta": "18/07/2026 16:03",
+    "imagem_url": null,
+    "anamnese_dinamica": {
+      "membro_afetado": "qweqweqw",
+      "nivel_dor": "5",
+      "historico_trauma": "ffafsafssfs"
+    }
+  }
+]

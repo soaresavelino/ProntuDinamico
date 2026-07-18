@@ -1,0 +1,118 @@
+[
+  {
+    "_id": "6a5b82af4fcc41fb8240c2b1",
+    "nome": "Psiquiatria",
+    "campos": [
+      {
+        "rotulo": "Relatório Comportamental e Emocional",
+        "nome_campo": "relatorio_comportamental",
+        "tipo": "textarea"
+      }
+    ]
+  },
+  {
+    "_id": "6a5b85174fcc41fb8240c2b8",
+    "nome": "Ortopedia",
+    "campos": [
+      {
+        "rotulo": "Membro / Osso Acometido",
+        "nome_campo": "membro_afetado",
+        "tipo": "text"
+      },
+      {
+        "rotulo": "Nível de Dor (0 a 10)",
+        "nome_campo": "nivel_dor",
+        "tipo": "number"
+      },
+      {
+        "rotulo": "Houve Trauma ou Queda?",
+        "nome_campo": "historico_trauma",
+        "tipo": "text"
+      }
+    ]
+  },
+  {
+    "_id": "6a5b9175c3ed7d15e3359f99",
+    "nome": "Dermatologia",
+    "campos": [
+      {
+        "nome_campo": "tipo_lesao",
+        "rotulo": "Tipo de Lesão / Alteração Cutânea",
+        "tipo": "text"
+      },
+      {
+        "nome_campo": "regiao_corpo",
+        "rotulo": "Região do Corpo Acometida",
+        "tipo": "text"
+      },
+      {
+        "nome_campo": "conduta_diagnostica",
+        "rotulo": "Evolução e Conduta Clínica",
+        "tipo": "textarea"
+      }
+    ]
+  },
+  {
+    "_id": "6a5b93077c2d34f2f87eee6b",
+    "nome": "Odontologia",
+    "campos": [
+      {
+        "nome_campo": "dente_acometido",
+        "rotulo": "Dente / Região (Ex: Elemento 16, 21...)",
+        "tipo": "text"
+      },
+      {
+        "nome_campo": "procedimento_realizado",
+        "rotulo": "Procedimento ou Diagnóstico",
+        "tipo": "text"
+      },
+      {
+        "nome_campo": "evolucao_odonto",
+        "rotulo": "Plano de Tratamento e Observações",
+        "tipo": "textarea"
+      }
+    ]
+  },
+  {
+    "_id": "6a5b961900c394725043cc26",
+    "nome": "Oftalmologia",
+    "campos": [
+      {
+        "nome_campo": "acuidade_visual",
+        "rotulo": "Acuidade Visual (OD / OE)",
+        "tipo": "text"
+      },
+      {
+        "nome_campo": "pressao_intraocular",
+        "rotulo": "Pressão Intraocular (PIO)",
+        "tipo": "text"
+      },
+      {
+        "nome_campo": "diagnostico_conduta",
+        "rotulo": "Diagnóstico e Conduta",
+        "tipo": "textarea"
+      }
+    ]
+  },
+  {
+    "_id": "6a5b98e800c394725043cc28",
+    "nome": "Cardiologia",
+    "campos": [
+      {
+        "nome_campo": "pressao_arterial",
+        "rotulo": "Pressão Arterial (PA)",
+        "tipo": "text"
+      },
+      {
+        "nome_campo": "frequencia_cardiaca",
+        "rotulo": "Frequência Cardíaca (FC em bpm)",
+        "tipo": "text"
+      },
+      {
+        "nome_campo": "laudo_ecg",
+        "rotulo": "Laudo do Eletrocardiograma (ECG)",
+        "tipo": "textarea"
+      }
+    ]
+  }
+]

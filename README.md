@@ -118,6 +118,50 @@ Receitas vinculadas a um atendimento.
 
 ## ▶️ Como Executar
 
+Existem duas formas de rodar o projeto: com **Docker** (recomendado, já sobe o banco com os dados) ou **manualmente** com Python e MongoDB local.
+
+---
+
+## 🐳 Opção 1 — Docker (recomendado)
+
+### Pré-requisitos
+
+- [Docker Desktop](https://www.docker.com/products/docker-desktop/) instalado e rodando
+
+### Passos
+
+```bash
+# 1. Clone o repositório
+git clone https://github.com/seu-usuario/prontu_dinamico.git
+cd prontu_dinamico
+
+# 2. Suba tudo com um único comando
+docker compose up --build
+```
+
+Acesse no navegador: **http://localhost:5000**
+
+O Docker vai:
+- Construir a imagem da aplicação Flask
+- Subir o MongoDB 7
+- Importar automaticamente todas as coleções (`especialidades`, `atendimentos`, `prescricoes`, `usuarios`) com os dados reais do projeto
+
+> Na primeira execução o MongoDB pode demorar alguns segundos para inicializar. Se a aplicação não conectar de imediato, aguarde e recarregue a página.
+
+Para parar:
+```bash
+docker compose down
+```
+
+Para parar e apagar os dados do banco:
+```bash
+docker compose down -v
+```
+
+---
+
+## 🐍 Opção 2 — Execução Manual (Python + MongoDB local)
+
 ### Pré-requisitos
 
 - [Python 3.10+](https://www.python.org/downloads/)
@@ -151,13 +195,20 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
-### 4. Suba o MongoDB
+### 4. Importe os dados no MongoDB
 
-Certifique-se de que o MongoDB está rodando. No Windows, ele geralmente sobe como serviço automaticamente. Para confirmar, abra o MongoDB Compass e conecte em `mongodb://localhost:27017`.
+Com o MongoDB rodando, importe os arquivos da pasta `/data` via MongoDB Compass ou pelo terminal:
 
-### 5. Popule as especialidades no banco
+```bash
+mongoimport --db prontu_db --collection especialidades --file data/especialidades.json --jsonArray
+mongoimport --db prontu_db --collection atendimentos   --file data/atendimentos.json   --jsonArray
+mongoimport --db prontu_db --collection prescricoes    --file data/prescricoes.json    --jsonArray
+mongoimport --db prontu_db --collection usuarios       --file data/usuarios.json       --jsonArray
+```
 
-O sistema depende da coleção `especialidades` para funcionar. Crie o banco `prontu_db` no Compass e insira os documentos abaixo na coleção `especialidades`:
+### 5. Popule as especialidades manualmente (alternativa ao passo 4)
+
+Caso prefira inserir via Compass, crie o banco `prontu_db` e insira na coleção `especialidades`:
 
 ```json
 [

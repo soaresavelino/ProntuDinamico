@@ -1,0 +1,69 @@
+[
+  {
+    "_id": "6a5bb1b42feed7c6dafb60a8",
+    "atendimento_id": "6a5b8f893c7ecd0fad88766e",
+    "data_emissao": "18/07/2026",
+    "medicamentos": [
+      {
+        "nome": "Cloridrato de Sertralina 500mg (ou Fluoxetina)",
+        "posologia": "Tomar 1 comprimido via oral pela manhã, todos os dias."
+      },
+      {
+        "nome": "Zolpidem 10mg",
+        "posologia": "Tomar 1 comprimido via oral à noite, imediatamente antes de deitar, se houver necessidade (insônia). Não estender o uso por mais de 4 semanas."
+      }
+    ]
+  },
+  {
+    "_id": "6a5bb2272feed7c6dafb60ac",
+    "atendimento_id": "6a5b909f3c7ecd0fad887678",
+    "data_emissao": "18/07/2026",
+    "medicamentos": [
+      {
+        "nome": "Tenoxicam 40mg (ou Dipirona Monoidratada 1g)",
+        "posologia": "Tomar 1 comprimido via oral de 12 em 12 horas por 5 dias."
+      },
+      {
+        "nome": "Cetoprofeno Gel 25mg/g",
+        "posologia": "Aplicar uma fina camada no tornozelo afetado de 8 em 8 horas, massageando suavemente, após retirada da imobilização para o banho."
+      }
+    ]
+  },
+  {
+    "_id": "6a5bb2482feed7c6dafb60b0",
+    "atendimento_id": "6a5b92553c7ecd0fad887680",
+    "data_emissao": "18/07/2026",
+    "medicamentos": [
+      {
+        "nome": "Pomada de Propionato de Clobetasol 0,05% (ou Valerato de Betametasona 0,1%)",
+        "posologia": "Aplicar uma fina camada sobre a lesão no cotovelo esquerdo 2 vezes ao dia (manhã e noite) por até 14 dias. Não aplicar em pele sã."
+      }
+    ]
+  },
+  {
+    "_id": "6a5bb3b2d01ebfd3f53ac83b",
+    "atendimento_id": "6a5ba4d200c394725043cc3b",
+    "data_emissao": "18/07/2026",
+    "medicamentos": [
+      {
+        "nome": "Cetoprofeno 100mg (ou Tenoxicam 40mg)",
+        "posologia": "Tomar 1 comprimido via oral de 12 em 12 horas, após as refeições, durante 5 dias."
+      },
+      {
+        "nome": "Paracetamol 750mg (or Dipirona Monoidratada 1g)",
+        "posologia": "Tomar 1 comprimido via oral em caso de dor intensa, respeitando o intervalo mínimo de 6 em 6 horas"
+      }
+    ]
+  },
+  {
+    "_id": "6a5bbf86ef2cdd500c8da3ac",
+    "atendimento_id": "6a5bbf66ef2cdd500c8da3a7",
+    "data_emissao": "18/07/2026",
+    "medicamentos": [
+      {
+        "nome": "afafsafsasffsaasf",
+        "posologia": "asdasdasdasasd"
+      }
+    ]
+  }
+]

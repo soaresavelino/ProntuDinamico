@@ -31,3 +31,6 @@ static/uploads/*.webp
 # Sistema operacional
 .DS_Store
 Thumbs.db
+
+# Script utilitário de exportação (só serve localmente)
+exportar_banco.py
