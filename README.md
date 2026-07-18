@@ -6,41 +6,60 @@ Sistema de prontuário eletrônico médico com **ficha clínica dinâmica por es
 
 ## 💡 Sobre o Projeto
 
-O diferencial do ProntuDinamico é que os campos do formulário de atendimento **não são fixos no código** — eles são carregados do banco de dados de acordo com a especialidade médica selecionada. Isso demonstra na prática o poder do MongoDB como banco de dados NoSQL orientado a documentos, onde cada atendimento pode ter uma estrutura diferente.
+O diferencial do ProntuDinamico é que os campos do formulário de atendimento **não são fixos no código** — eles são carregados do banco de dados de acordo com a especialidade médica selecionada. Isso demonstra na prática o poder do MongoDB como banco de dados NoSQL orientado a documentos, onde cada atendimento pode ter uma estrutura completamente diferente.
 
 ### Funcionalidades
 
-- Cadastro e autenticação de médicos (senha criptografada com bcrypt)
+- Cadastro e autenticação de médicos com senha criptografada (bcrypt)
 - Registro de atendimentos com ficha clínica dinâmica por especialidade
-- Anexo de imagens de exames
+- Anexo de imagens de exames ao prontuário
 - Busca por nome do paciente, CPF e filtro por especialidade
 - Emissão de prescrição médica vinculada ao atendimento
-- Trava de identidade: apenas o médico responsável pode emitir a receita
+- Trava de identidade: apenas o médico responsável pelo atendimento pode emitir a receita
+
+### Especialidades disponíveis
+
+| Especialidade | Campos clínicos |
+|---|---|
+| Psiquiatria | Relatório Comportamental e Emocional |
+| Ortopedia | Membro Acometido, Nível de Dor, Histórico de Trauma |
+| Dermatologia | Tipo de Lesão, Região do Corpo, Evolução e Conduta |
+| Odontologia | Dente/Região, Procedimento, Plano de Tratamento |
+| Oftalmologia | Acuidade Visual, Pressão Intraocular, Diagnóstico |
+| Cardiologia | Pressão Arterial, Frequência Cardíaca, Laudo ECG |
 
 ---
 
 ## 🏗️ Arquitetura MVC
 
 ```
-prontu_dinamico/
-├── app.py                          # Ponto de entrada, registro dos Blueprints
+ProntuDinamico/
+├── app.py                          # Ponto de entrada, registro dos Blueprints e filtros Jinja2
 ├── config/
-│   └── database.py                 # Conexão com o MongoDB
+│   └── database.py                 # Conexão com o MongoDB (lê MONGO_URI do ambiente)
 ├── models/
 │   ├── prontuario_model.py         # Model: coleção atendimentos e especialidades
 │   └── usuario_model.py            # Model: coleção usuarios (bcrypt)
 ├── controllers/
 │   ├── auth_controller.py          # Blueprint: /login, /cadastro, /logout
-│   ├── prontuario_controller.py    # Blueprint: / (listagem), /novo
+│   ├── prontuario_controller.py    # Blueprint: / (listagem com busca), /novo
 │   └── prescricao_controller.py    # Blueprint: /atendimento/<id>/prescricao
 ├── templates/
 │   ├── login.html
 │   ├── cadastro.html
-│   ├── index.html                  # Listagem com busca e filtros
-│   ├── novo_prontuario.html        # Formulário dinâmico via JS
+│   ├── index.html                  # Listagem com busca por CPF/Nome e filtro por especialidade
+│   ├── novo_prontuario.html        # Formulário com campos dinâmicos montados via JavaScript
 │   └── nova_prescricao.html
 ├── static/
-│   └── uploads/                    # Imagens de exames anexadas
+│   └── uploads/                    # Imagens de exames anexadas pelos médicos
+├── data/                           # Dump das coleções MongoDB em JSON (usado pelo seed)
+│   ├── especialidades.json
+│   ├── atendimentos.json
+│   ├── prescricoes.json
+│   └── usuarios.json
+├── seed.py                         # Popula o MongoDB automaticamente na primeira execução
+├── Dockerfile                      # Imagem da aplicação Flask
+├── docker-compose.yml              # Orquestra Flask + MongoDB + Seed
 └── requirements.txt
 ```
 
@@ -48,38 +67,36 @@ prontu_dinamico/
 
 ## 🗄️ Banco de Dados — MongoDB (NoSQL)
 
-Banco: `prontu_db` | Porta padrão: `27017`
+Banco: `prontu_db` | 4 coleções
 
-### Coleções
-
-#### `usuarios`
-Armazena os médicos cadastrados.
+### `usuarios`
+Médicos cadastrados no sistema.
 ```json
 {
   "_id": "ObjectId",
   "nome": "Gabriel Soares Avelino",
   "crm": "123456/MG",
-  "email": "medico@email.com",
-  "senha": "Binary (bcrypt hash)",
-  "especialidade": "Ortopedia"
+  "email": "medicoexemplo@gmail.com",
+  "senha": "$2b$12$... (bcrypt hash)",
+  "especialidade": "Psiquiatria"
 }
 ```
 
-#### `especialidades`
-Define os campos dinâmicos de cada especialidade. Populada manualmente via MongoDB Compass.
+### `especialidades`
+Define os campos dinâmicos de cada especialidade. É aqui que o sistema decide quais inputs exibir no formulário de atendimento.
 ```json
 {
   "nome": "Ortopedia",
   "campos": [
-    { "nome_campo": "membro_afetado", "rotulo": "Membro Afetado", "tipo": "text" },
-    { "nome_campo": "escala_dor",     "rotulo": "Escala de Dor (0-10)", "tipo": "number" },
-    { "nome_campo": "diagnostico",    "rotulo": "Diagnóstico", "tipo": "textarea" }
+    { "nome_campo": "membro_afetado",   "rotulo": "Membro / Osso Acometido", "tipo": "text" },
+    { "nome_campo": "nivel_dor",        "rotulo": "Nível de Dor (0 a 10)",   "tipo": "number" },
+    { "nome_campo": "historico_trauma", "rotulo": "Houve Trauma ou Queda?",  "tipo": "text" }
   ]
 }
 ```
 
-#### `atendimentos`
-Documento polimórfico — cada especialidade gera uma estrutura diferente em `anamnese_dinamica`.
+### `atendimentos`
+Documento polimórfico — o campo `anamnese_dinamica` muda de estrutura conforme a especialidade. Isso é o NoSQL em ação.
 ```json
 {
   "_id": "ObjectId",
@@ -95,14 +112,14 @@ Documento polimórfico — cada especialidade gera uma estrutura diferente em `a
   "imagem_url": "/static/uploads/exame.jpg",
   "anamnese_dinamica": {
     "membro_afetado": "Joelho direito",
-    "escala_dor": "7",
-    "diagnostico": "Tendinite patelar"
+    "nivel_dor": "7",
+    "historico_trauma": "Queda de bicicleta"
   }
 }
 ```
 
-#### `prescricoes`
-Receitas vinculadas a um atendimento.
+### `prescricoes`
+Receitas vinculadas a um atendimento específico.
 ```json
 {
   "_id": "ObjectId",
@@ -118,7 +135,7 @@ Receitas vinculadas a um atendimento.
 
 ## ▶️ Como Executar
 
-Existem duas formas de rodar o projeto: com **Docker** (recomendado, já sobe o banco com os dados) ou **manualmente** com Python e MongoDB local.
+Existem duas formas de rodar o projeto: com **Docker** (recomendado) ou **manualmente** com Python e MongoDB local.
 
 ---
 
@@ -135,133 +152,75 @@ Existem duas formas de rodar o projeto: com **Docker** (recomendado, já sobe o 
 git clone https://github.com/soaresavelino/ProntuDinamico.git
 cd ProntuDinamico
 
-# 2. Suba tudo com um único comando (constrói a imagem e importa o banco)
-docker compose up -d --build
+# 2. Suba tudo com um único comando
+docker compose up --build
 ```
 
-Acesse no navegador: **http://localhost:5000**
+Acesse: **http://localhost:5000**
 
-O Docker vai:
-- Subir o MongoDB 7
-- Importar automaticamente todas as coleções (`especialidades`, `atendimentos`, `prescricoes`, `usuarios`) com os dados reais do projeto
+O que acontece nos bastidores:
+1. **`mongo`** — sobe o MongoDB 7 e aguarda ficar saudável
+2. **`seed`** — executa o `seed.py` que importa os 4 JSONs da pasta `/data` para o banco
+3. **`app`** — constrói a imagem Flask e sobe a aplicação, já com banco populado
 
-> Na primeira execução o MongoDB pode demorar alguns segundos para inicializar. Se a aplicação não conectar de imediato, aguarde e recarregue a página.
+> Na primeira execução pode demorar ~30 segundos até o seed terminar. Aguarde e recarregue a página se necessário.
 
-Para parar:
 ```bash
+# Parar sem apagar os dados
 docker compose down
-```
 
-Para parar e apagar os dados do banco:
-```bash
+# Parar e resetar o banco (próxima subida reimporta os JSONs)
 docker compose down -v
 ```
 
 ---
 
-## 🐍 Opção 2 — Execução Manual (Python + MongoDB local)
+## 🐍 Opção 2 — Execução Manual
 
 ### Pré-requisitos
 
 - [Python 3.10+](https://www.python.org/downloads/)
-- [MongoDB Community Server](https://www.mongodb.com/try/download/community) rodando localmente na porta `27017`
-- [MongoDB Compass](https://www.mongodb.com/try/download/compass) (opcional, para visualizar os dados)
+- [MongoDB Community Server](https://www.mongodb.com/try/download/community) rodando na porta `27017`
 
----
-
-### 1. Clone o repositório
+### Passos
 
 ```bash
+# 1. Clone o repositório
 git clone https://github.com/soaresavelino/ProntuDinamico.git
 cd ProntuDinamico
-```
 
-### 2. Crie e ative o ambiente virtual
-
-```bash
-# Windows
+# 2. Crie e ative o ambiente virtual
 python -m venv venv
-venv\Scripts\activate
+venv\Scripts\activate        # Windows
+# source venv/bin/activate   # Linux/macOS
 
-# Linux / macOS
-python3 -m venv venv
-source venv/bin/activate
-```
-
-### 3. Instale as dependências
-
-```bash
+# 3. Instale as dependências
 pip install -r requirements.txt
-```
 
-### 4. Importe os dados no MongoDB
+# 4. Popule o banco (importa os dados da pasta /data automaticamente)
+python seed.py
 
-Com o MongoDB rodando, importe os arquivos da pasta `/data` via MongoDB Compass ou pelo terminal:
-
-```bash
-mongoimport --db prontu_db --collection especialidades --file data/especialidades.json --jsonArray
-mongoimport --db prontu_db --collection atendimentos   --file data/atendimentos.json   --jsonArray
-mongoimport --db prontu_db --collection prescricoes    --file data/prescricoes.json    --jsonArray
-mongoimport --db prontu_db --collection usuarios       --file data/usuarios.json       --jsonArray
-```
-
-### 5. Popule as especialidades manualmente (alternativa ao passo 4)
-
-Caso prefira inserir via Compass, crie o banco `prontu_db` e insira na coleção `especialidades`:
-
-```json
-[
-  {
-    "nome": "Ortopedia",
-    "campos": [
-      { "nome_campo": "membro_afetado", "rotulo": "Membro Afetado", "tipo": "text" },
-      { "nome_campo": "escala_dor", "rotulo": "Escala de Dor (0-10)", "tipo": "number" },
-      { "nome_campo": "diagnostico", "rotulo": "Diagnóstico", "tipo": "textarea" }
-    ]
-  },
-  {
-    "nome": "Cardiologia",
-    "campos": [
-      { "nome_campo": "pressao_arterial", "rotulo": "Pressão Arterial", "tipo": "text" },
-      { "nome_campo": "frequencia_cardiaca", "rotulo": "Frequência Cardíaca (bpm)", "tipo": "number" },
-      { "nome_campo": "sintomas", "rotulo": "Sintomas Relatados", "tipo": "textarea" }
-    ]
-  },
-  {
-    "nome": "Dermatologia",
-    "campos": [
-      { "nome_campo": "regiao_afetada", "rotulo": "Região Afetada", "tipo": "text" },
-      { "nome_campo": "descricao_lesao", "rotulo": "Descrição da Lesão", "tipo": "textarea" },
-      { "nome_campo": "tempo_evolucao", "rotulo": "Tempo de Evolução", "tipo": "text" }
-    ]
-  },
-  {
-    "nome": "Oftalmologia",
-    "campos": [
-      { "nome_campo": "acuidade_visual", "rotulo": "Acuidade Visual", "tipo": "text" },
-      { "nome_campo": "olho_afetado", "rotulo": "Olho Afetado", "tipo": "text" },
-      { "nome_campo": "queixa_principal", "rotulo": "Queixa Principal", "tipo": "textarea" }
-    ]
-  }
-]
-```
-
-### 6. Execute a aplicação
-
-```bash
+# 5. Suba a aplicação
 python app.py
 ```
 
-Acesse no navegador: **http://localhost:5000**
+Acesse: **http://localhost:5000**
 
 ---
 
-## 🔑 Primeiro Acesso
+## 🔑 Usuários de Teste
 
-1. Acesse `/cadastro` e crie sua conta médica
-2. Faça login com e-mail e senha
-3. Registre um novo atendimento em `/novo`
-4. Após o atendimento, emita uma prescrição médica
+Os seguintes médicos já estão importados pelo seed. Use para testar o login:
+
+| Nome | E-mail | Especialidade |
+|---|---|---|
+| Gabriel Soares Avelino | medicoexemplo@gmial.com | Psiquiatria |
+| Ian Baptista | ianbaptista@gmail.com | Ortopedia |
+| Kaua | kaua@gmail.com | Dermatologia |
+| Michael Joseph Jackson | dr.michael@michaeljackson.med.br | Odontologia |
+| Camille Silva Oliveira | draCamille@gmail.com | Cardiologia |
+
+> As senhas são as cadastradas originalmente. Caso não lembre, crie um novo usuário em `/cadastro`.
 
 ---
 
@@ -269,10 +228,11 @@ Acesse no navegador: **http://localhost:5000**
 
 | Tecnologia | Uso |
 |---|---|
-| Python 3 + Flask | Backend e roteamento (Blueprints) |
-| MongoDB | Banco de dados NoSQL orientado a documentos |
-| PyMongo | Driver de conexão Python ↔ MongoDB |
-| bcrypt | Hash de senhas |
-| Jinja2 | Engine de templates |
+| Python 3 + Flask | Backend e roteamento via Blueprints |
+| MongoDB 7 | Banco NoSQL com documentos polimórficos |
+| PyMongo | Driver Python para MongoDB |
+| bcrypt | Hash seguro de senhas |
+| Docker + Compose | Containerização e orquestração dos serviços |
+| Jinja2 | Engine de templates HTML |
 | Bootstrap 5 | Interface responsiva |
-| JavaScript | Montagem dinâmica dos campos no formulário |
+| JavaScript | Montagem dinâmica dos campos do formulário |
