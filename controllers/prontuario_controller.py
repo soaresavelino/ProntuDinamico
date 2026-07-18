@@ -46,11 +46,18 @@ def index():
     # Busca no banco aplicando todos os filtros combinados
     todos_atendimentos_cursor = db['atendimentos'].find(query_mongo)
     
-    # 🌟 CORREÇÃO/ADICIONAL: Percorre os atendimentos e injeta a prescrição vinculada (se houver)
+    # Percorre os atendimentos e injeta a prescrição vinculada (se houver)
+    # Busca por ObjectId E por string para compatibilidade com dados importados
     todos_atendimentos = []
     for atendimento in todos_atendimentos_cursor:
-        prescricao = db['prescricoes'].find_one({"atendimento_id": atendimento["_id"]})
-        atendimento["prescricao"] = prescricao  # Coloca a receita dentro do objeto do atendimento
+        atendimento_id = atendimento["_id"]
+        prescricao = db['prescricoes'].find_one({
+            "$or": [
+                {"atendimento_id": atendimento_id},
+                {"atendimento_id": str(atendimento_id)}
+            ]
+        })
+        atendimento["prescricao"] = prescricao
         todos_atendimentos.append(atendimento)
     
     # Busca a lista de todas as especialidades para renderizar no select de busca da tela
