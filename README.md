@@ -136,7 +136,7 @@ git clone https://github.com/soaresavelino/ProntuDinamico.git
 cd ProntuDinamico
 
 # 2. Suba tudo com um único comando (constrói a imagem e importa o banco)
-docker compose up --build
+docker compose up -d --build
 ```
 
 Acesse no navegador: **http://localhost:5000**
