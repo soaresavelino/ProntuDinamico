@@ -34,3 +34,6 @@ Thumbs.db
 
 # Script utilitário de exportação (só serve localmente)
 exportar_banco.py
+
+__pycache__/
+*.pyc
