@@ -6,7 +6,7 @@ usuarios_collection = db['usuarios']
 
 class UsuarioModel:
     @staticmethod
-    def cadastrar(nome, crm, email, senha_plana):
+    def cadastrar(nome, crm, email, senha_plana, especialidade=None):
         """Criptografa a senha e salva o médico no MongoDB"""
         # Verifica se o e-mail já existe
         if usuarios_collection.find_one({"email": email}):
@@ -19,7 +19,8 @@ class UsuarioModel:
             "nome": nome,
             "crm": crm,
             "email": email,
-            "senha": senha_hash
+            "senha": senha_hash,
+            "especialidade": especialidade or "Geral"
         }
         usuarios_collection.insert_one(medico)
         return True

@@ -1,5 +1,6 @@
 from flask import Blueprint, render_template, request, redirect, url_for, session, flash
 from models.usuario_model import UsuarioModel
+from models.prontuario_model import ProntuarioModel
 
 auth_blueprint = Blueprint('auth', __name__)
 
@@ -27,15 +28,16 @@ def cadastro():
         crm = request.form.get('crm')
         email = request.form.get('email')
         senha = request.form.get('senha')
-        # Certifique-se de que o seu UsuarioModel.cadastrar aceite a especialidade
-        especialidade = request.form.get('especialidade') 
+        especialidade = request.form.get('especialidade')
         
         if UsuarioModel.cadastrar(nome, crm, email, senha, especialidade):
             flash('Cadastro realizado com sucesso! Faça o login.', 'success')
             return redirect(url_for('auth.login'))
         
         flash('Este e-mail já está cadastrado.', 'danger')
-    return render_template('cadastro.html')
+    
+    especialidades = ProntuarioModel.listar_especialidades()
+    return render_template('cadastro.html', especialidades=especialidades)
 
 @auth_blueprint.route('/logout')
 def logout():

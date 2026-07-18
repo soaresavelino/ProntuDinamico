@@ -32,6 +32,15 @@
                         <label class="form-label">E-mail profissional</label>
                         <input type="email" name="email" class="form-control" required>
                     </div>
+                    <div class="mb-3">
+                        <label class="form-label">Especialidade</label>
+                        <select name="especialidade" class="form-select" required>
+                            <option value="">Selecione...</option>
+                            {% for esp in especialidades %}
+                                <option value="{{ esp.nome }}">{{ esp.nome }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
                     <div class="mb-4">
                         <label class="form-label">Senha de Acesso</label>
                         <input type="password" name="senha" class="form-control" required>

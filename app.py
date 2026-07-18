@@ -13,7 +13,7 @@ UPLOAD_FOLDER = os.path.join('static', 'uploads')
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
-# 🌟 FILTRO CUSTOMIZADO: Resolve o problema de comparação entre ObjectId e String no Jinja2
+# FILTRO CUSTOMIZADO: Resolve o problema de comparação entre ObjectId e String no Jinja2
 @app.template_filter('eh_o_mesmo_medico')
 def eh_o_mesmo_medico(medico_id, usuario_id):
     if not medico_id or not usuario_id:
