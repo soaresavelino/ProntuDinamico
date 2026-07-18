@@ -4,7 +4,7 @@
     "nome": "Gabriel Soares Avelino",
     "crm": "123456/MG",
     "email": "medicoexemplo@gmial.com",
-    "senha": "b'$2b$12$FrSn/ahU/9kWdfiDAySiAOWMiUsBNU1PlpAbMqaD1ToW/l1744pqO'",
+    "senha": "$2b$12$FrSn/ahU/9kWdfiDAySiAOWMiUsBNU1PlpAbMqaD1ToW/l1744pqO",
     "especialidade": "Psiquiatria"
   },
   {
@@ -12,7 +12,7 @@
     "nome": "Ian Baptista",
     "crm": "512146/MG",
     "email": "ianbaptista@gmail.com",
-    "senha": "b'$2b$12$mKrIABGRObovzMI6RkbG8OBL.dqUIfq8QHpTpxJNBsIJTdy8fA0F.'",
+    "senha": "$2b$12$mKrIABGRObovzMI6RkbG8OBL.dqUIfq8QHpTpxJNBsIJTdy8fA0F.",
     "especialidade": "Ortopedia"
   },
   {
@@ -20,7 +20,7 @@
     "nome": "kaua\n",
     "crm": "431456/MG",
     "email": "kaua@gmail.com",
-    "senha": "b'$2b$12$OFSzR9y.r2fb.vwJVKXeT.KFukFkAIeUBnuRLlS1nEjJnRkrr7p0S'",
+    "senha": "$2b$12$OFSzR9y.r2fb.vwJVKXeT.KFukFkAIeUBnuRLlS1nEjJnRkrr7p0S",
     "especialidade": "Dermatologia"
   },
   {
@@ -28,7 +28,7 @@
     "nome": "Michael Joseph Jackson",
     "crm": "124236/MG",
     "email": "dr.michael@michaeljackson.med.br",
-    "senha": "b'$2b$12$g.JzFFzh.XT1ziNec.C/KeGpgMaFQyf4sgMJ0s8YuF86a/p3Xso.6'",
+    "senha": "$2b$12$g.JzFFzh.XT1ziNec.C/KeGpgMaFQyf4sgMJ0s8YuF86a/p3Xso.6",
     "especialidade": "Odontologia"
   },
   {
@@ -36,7 +36,7 @@
     "nome": " Camille Silva Oliveira",
     "crm": "123126/MG",
     "email": "draCamille@gmail.com",
-    "senha": "b'$2b$12$HWEfaVs8V5Ug9LxsmwjFauJga8xQr6tbS511BLLGNeXMIcmfuTkU2'",
+    "senha": "$2b$12$HWEfaVs8V5Ug9LxsmwjFauJga8xQr6tbS511BLLGNeXMIcmfuTkU2",
     "especialidade": "Cardiologia"
   }
 ]

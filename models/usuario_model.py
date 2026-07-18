@@ -29,6 +29,17 @@ class UsuarioModel:
     def verificar_login(email, senha_plana):
         """Busca o usuário e valida a senha"""
         usuario = usuarios_collection.find_one({"email": email})
-        if usuario and bcrypt.checkpw(senha_plana.encode('utf-8'), usuario['senha']):
-            return usuario
+        if usuario:
+            senha_hash = usuario['senha']
+            # Caso 1: veio como bytes direto do MongoDB (fluxo normal)
+            if isinstance(senha_hash, bytes):
+                pass
+            # Caso 2: veio como string "b'$2b$12$...'" (importado via JSON/seed)
+            elif isinstance(senha_hash, str):
+                if senha_hash.startswith("b'") and senha_hash.endswith("'"):
+                    senha_hash = senha_hash[2:-1].encode('utf-8')
+                else:
+                    senha_hash = senha_hash.encode('utf-8')
+            if bcrypt.checkpw(senha_plana.encode('utf-8'), senha_hash):
+                return usuario
         return None
