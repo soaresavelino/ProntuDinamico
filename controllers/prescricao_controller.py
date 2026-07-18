@@ -18,7 +18,9 @@ def nova_prescricao(atendimento_id):
         return redirect(url_for('prontuario.index'))
         
     # 🔒 TRAVA DE IDENTIDADE: Se o ID do médico dono do prontuário for diferente do logado na sessão
-    if str(atendimento['medico_id']) != str(session['usuario_id']):
+    medico_id_atendimento = str(atendimento['medico_id']).replace("ObjectId('", "").replace("')", "").strip()
+    medico_id_sessao = str(session['usuario_id']).replace("ObjectId('", "").replace("')", "").strip()
+    if medico_id_atendimento != medico_id_sessao:
         flash(f"Acesso negado: Este atendimento é de responsabilidade do(a) Dr(a). {atendimento['medico_nome']}.", "danger")
         return redirect(url_for('prontuario.index'))
         
@@ -38,7 +40,9 @@ def salvar_prescricao(atendimento_id):
         return redirect(url_for('prontuario.index'))
 
     # 🔒 TRAVA DE IDENTIDADE: Garante o bloqueio também no envio do formulário (POST)
-    if str(atendimento['medico_id']) != str(session['usuario_id']):
+    medico_id_atendimento = str(atendimento['medico_id']).replace("ObjectId('", "").replace("')", "").strip()
+    medico_id_sessao = str(session['usuario_id']).replace("ObjectId('", "").replace("')", "").strip()
+    if medico_id_atendimento != medico_id_sessao:
         flash("Operação não autorizada.", "danger")
         return redirect(url_for('prontuario.index'))
 
