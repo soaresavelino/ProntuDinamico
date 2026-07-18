@@ -5,25 +5,37 @@ from config.database import get_database
 
 prescricao_blueprint = Blueprint('prescricao', __name__, url_prefix='/atendimento')
 
+
+def ids_iguais(id_a, id_b):
+    """Compara dois IDs independente de serem ObjectId, string ou string com prefixo b'...'"""
+    def limpar(id_bruto):
+        s = str(id_bruto)
+        # Remove prefixo ObjectId('...') se existir
+        s = s.replace("ObjectId('", "").replace("')", "")
+        # Remove prefixo b'...' se existir
+        if s.startswith("b'") and s.endswith("'"):
+            s = s[2:-1]
+        return s.strip()
+    return limpar(id_a) == limpar(id_b)
+
+
 @prescricao_blueprint.route('/<atendimento_id>/prescricao', methods=['GET'])
 def nova_prescricao(atendimento_id):
     if 'usuario_id' not in session:
         return redirect(url_for('auth.login'))
-        
+
     db = get_database()
     atendimento = db['atendimentos'].find_one({"_id": ObjectId(atendimento_id)})
-    
+
     if not atendimento:
         flash("Atendimento clínico não encontrado.", "danger")
         return redirect(url_for('prontuario.index'))
-        
-    # 🔒 TRAVA DE IDENTIDADE: Se o ID do médico dono do prontuário for diferente do logado na sessão
-    medico_id_atendimento = str(atendimento['medico_id']).replace("ObjectId('", "").replace("')", "").strip()
-    medico_id_sessao = str(session['usuario_id']).replace("ObjectId('", "").replace("')", "").strip()
-    if medico_id_atendimento != medico_id_sessao:
+
+    # 🔒 TRAVA DE IDENTIDADE
+    if not ids_iguais(atendimento['medico_id'], session['usuario_id']):
         flash(f"Acesso negado: Este atendimento é de responsabilidade do(a) Dr(a). {atendimento['medico_nome']}.", "danger")
         return redirect(url_for('prontuario.index'))
-        
+
     return render_template('nova_prescricao.html', atendimento=atendimento)
 
 
@@ -34,21 +46,19 @@ def salvar_prescricao(atendimento_id):
 
     db = get_database()
     atendimento = db['atendimentos'].find_one({"_id": ObjectId(atendimento_id)})
-    
+
     if not atendimento:
         flash("Atendimento clínico não encontrado.", "danger")
         return redirect(url_for('prontuario.index'))
 
-    # 🔒 TRAVA DE IDENTIDADE: Garante o bloqueio também no envio do formulário (POST)
-    medico_id_atendimento = str(atendimento['medico_id']).replace("ObjectId('", "").replace("')", "").strip()
-    medico_id_sessao = str(session['usuario_id']).replace("ObjectId('", "").replace("')", "").strip()
-    if medico_id_atendimento != medico_id_sessao:
+    # 🔒 TRAVA DE IDENTIDADE no POST
+    if not ids_iguais(atendimento['medico_id'], session['usuario_id']):
         flash("Operação não autorizada.", "danger")
         return redirect(url_for('prontuario.index'))
 
     nomes_medicamentos = request.form.getlist('nome_medicamento[]')
     posologias = request.form.getlist('posologia[]')
-    
+
     lista_medicamentos = []
     for i in range(len(nomes_medicamentos)):
         if nomes_medicamentos[i].strip():
@@ -56,7 +66,7 @@ def salvar_prescricao(atendimento_id):
                 "nome": nomes_medicamentos[i].strip(),
                 "posologia": posologias[i].strip()
             })
-            
+
     if not lista_medicamentos:
         flash("Por favor, adicione ao menos um medicamento válido à receita.", "warning")
         return redirect(url_for('prescricao.nova_prescricao', atendimento_id=atendimento_id))
@@ -66,8 +76,8 @@ def salvar_prescricao(atendimento_id):
         "data_emissao": datetime.now().strftime("%d/%m/%Y"),
         "medicamentos": lista_medicamentos
     }
-    
+
     db['prescricoes'].insert_one(nova_receita)
-    
+
     flash("Prescrição médica cadastrada com sucesso!", "success")
     return redirect(url_for('prontuario.index'))
