@@ -142,7 +142,6 @@ docker compose up --build
 Acesse no navegador: **http://localhost:5000**
 
 O Docker vai:
-- Construir a imagem da aplicação Flask
 - Subir o MongoDB 7
 - Importar automaticamente todas as coleções (`especialidades`, `atendimentos`, `prescricoes`, `usuarios`) com os dados reais do projeto
 
