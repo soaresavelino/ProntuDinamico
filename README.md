@@ -89,7 +89,7 @@ Documento polimórfico — cada especialidade gera uma estrutura diferente em `a
   "paciente_genero": "Masculino",
   "paciente_contato": "(31) 99999-9999",
   "medico_id": "ObjectId do médico",
-  "medico_nome": "Dr. Gabriel",
+  "medico_nome": "Gabriel Soares Avelino",
   "especialidade": "Ortopedia",
   "data_consulta": "18/07/2025 14:30",
   "imagem_url": "/static/uploads/exame.jpg",
@@ -142,7 +142,6 @@ docker compose up --build
 Acesse no navegador: **http://localhost:5000**
 
 O Docker vai:
-- Construir a imagem da aplicação Flask
 - Subir o MongoDB 7
 - Importar automaticamente todas as coleções (`especialidades`, `atendimentos`, `prescricoes`, `usuarios`) com os dados reais do projeto
 
