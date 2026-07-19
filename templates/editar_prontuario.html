@@ -3,20 +3,12 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Editar Prontuário - ProntuDinamico</title>
+    <title>Editar Prontuário</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 
 <body class="bg-light">
-
-    <nav class="navbar navbar-dark bg-dark mb-4">
-        <div class="container">
-            <span class="navbar-brand mb-0 h1">Nordic_medical 🩺 ProntuDinamico</span>
-            <span class="text-white">Olá, Dr(a). {{ session['usuario_nome'] }}</span>
-        </div>
-    </nav>
-
-    <div class="container mt-2" style="max-width: 600px;">
+    <div class="container mt-5" style="max-width: 600px;">
         <div class="card shadow">
             <div class="card-header bg-warning text-dark">
                 <h4 class="mb-0">✏️ Editar Prontuário</h4>
@@ -26,34 +18,28 @@
                 {% with messages = get_flashed_messages(with_categories=true) %}
                 {% if messages %}
                 {% for category, message in messages %}
-                <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
-                    {{ message }}
-                </div>
+                <div class="alert alert-{{ category }}" role="alert">{{ message }}</div>
                 {% endfor %}
                 {% endif %}
                 {% endwith %}
 
-                <form method="POST"
-                    action="{{ url_for('prontuario.editar_prontuario', atendimento_id=atendimento._id) }}"
-                    enctype="multipart/form-data">
+                <form method="POST" enctype="multipart/form-data">
 
-                    <!-- Nome do Paciente -->
                     <div class="mb-3">
                         <label class="form-label">Nome do Paciente</label>
                         <input type="text" name="paciente_nome" class="form-control"
                             value="{{ atendimento.paciente_nome }}" required>
                     </div>
 
-                    <!-- Idade e Gênero -->
                     <div class="row mb-3">
                         <div class="col-md-6">
                             <label class="form-label">Idade</label>
                             <input type="number" name="paciente_idade" class="form-control"
-                                value="{{ atendimento.paciente_idade }}" min="0" max="130" required>
+                                value="{{ atendimento.paciente_idade }}" min="0" max="130">
                         </div>
                         <div class="col-md-6">
                             <label class="form-label">Gênero</label>
-                            <select name="paciente_genero" class="form-select" required>
+                            <select name="paciente_genero" class="form-select">
                                 <option value="Masculino" {% if atendimento.paciente_genero=='Masculino' %}selected{%
                                     endif %}>Masculino</option>
                                 <option value="Feminino" {% if atendimento.paciente_genero=='Feminino' %}selected{%
@@ -64,50 +50,44 @@
                         </div>
                     </div>
 
-                    <!-- Contato -->
                     <div class="mb-3">
                         <label class="form-label">Telefone / WhatsApp</label>
-                        <input type="text" name="paciente_contato" id="paciente_contato" class="form-control"
-                            value="{{ atendimento.paciente_contato }}" maxlength="15" required>
+                        <input type="text" name="paciente_contato" class="form-control"
+                            value="{{ atendimento.paciente_contato }}" maxlength="15">
                     </div>
 
-                    <!-- Especialidade (somente leitura) -->
                     <div class="mb-3">
-                        <label class="form-label">Especialidade</label>
-                        <input type="text" class="form-control" value="{{ atendimento.especialidade }}" disabled>
-                        <small class="text-muted">A especialidade não pode ser alterada.</small>
-                    </div>
-
-                    <!-- Nova foto de exame -->
-                    <div class="mb-3">
-                        <label class="form-label">Substituir Foto de Exame (Opcional)</label>
+                        <label class="form-label">Anexar Nova Foto de Exame (opcional)</label>
                         <input type="file" name="foto_exame" class="form-control" accept="image/*">
                         {% if atendimento.imagem_url %}
-                        <small class="text-muted">Imagem atual: <a href="{{ atendimento.imagem_url }}"
-                                target="_blank">ver</a></small>
+                        <small class="text-muted">Imagem atual:
+                            <a href="{{ atendimento.imagem_url }}" target="_blank">ver imagem</a>
+                        </small>
                         {% endif %}
                     </div>
 
                     <hr>
+                    <h5 class="text-info">Campos Clínicos — {{ atendimento.especialidade }}</h5>
 
-                    <!-- Campos dinâmicos da anamnese -->
-                    <h6 class="text-info mb-3">Dados Clínicos ({{ atendimento.especialidade }})</h6>
-                    {% for esp in especialidades %}
-                    {% if esp.nome == atendimento.especialidade %}
-                    {% for campo in esp.campos %}
-                    <div class="mb-3">
-                        <label class="form-label">{{ campo.rotulo }}</label>
-                        {% if campo.tipo == 'textarea' %}
-                        <textarea name="{{ campo.nome_campo }}" class="form-control"
-                            rows="3">{{ atendimento.anamnese_dinamica.get(campo.nome_campo, '') }}</textarea>
-                        {% else %}
-                        <input type="{{ campo.tipo }}" name="{{ campo.nome_campo }}" class="form-control"
-                            value="{{ atendimento.anamnese_dinamica.get(campo.nome_campo, '') }}">
+                    <!-- Campos dinâmicos preenchidos com os valores atuais -->
+                    <div id="campos-dinamicos">
+                        {% for esp in especialidades %}
+                        {% if esp.nome == atendimento.especialidade %}
+                        {% for campo in esp.campos %}
+                        <div class="mb-3">
+                            <label class="form-label">{{ campo.rotulo }}</label>
+                            {% if campo.tipo == 'textarea' %}
+                            <textarea name="{{ campo.nome_campo }}" class="form-control"
+                                rows="3">{{ atendimento.anamnese_dinamica.get(campo.nome_campo, '') }}</textarea>
+                            {% else %}
+                            <input type="{{ campo.tipo }}" name="{{ campo.nome_campo }}" class="form-control"
+                                value="{{ atendimento.anamnese_dinamica.get(campo.nome_campo, '') }}">
+                            {% endif %}
+                        </div>
+                        {% endfor %}
                         {% endif %}
+                        {% endfor %}
                     </div>
-                    {% endfor %}
-                    {% endif %}
-                    {% endfor %}
 
                     <div class="d-flex justify-content-between mt-3">
                         <a href="/" class="btn btn-secondary">Cancelar</a>
@@ -117,19 +97,6 @@
             </div>
         </div>
     </div>
-
-    <script>
-        // Máscara de telefone
-        document.getElementById('paciente_contato').addEventListener('input', function (e) {
-            let value = e.target.value.replace(/\D/g, '');
-            if (value.length > 11) value = value.slice(0, 11);
-            value = value.replace(/^(\d{2})(\d)/g, '($1) $2');
-            value = value.replace(/(\d{5})(\d)/, '$1-$2');
-            e.target.value = value;
-        });
-    </script>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>
