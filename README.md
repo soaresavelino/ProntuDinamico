@@ -65,8 +65,93 @@ ProntuDinamico/
 
 ---
 
-## 🗄️ Banco de Dados — MongoDB (NoSQL)
+---
 
+## Etapa 2 — Modelo Conceitual
+
+Diagrama Entidade-Relacionamento do sistema, elaborado com notação ER no brModelo.
+
+![Diagrama Conceitual](docs/diagrama_conceitual.png)
+
+**Relacionamentos:**
+- `USUARIO` **PERTENCE A** `ESPECIALIDADE` (1,1) — cada médico pertence a uma especialidade
+- `USUARIO` **REALIZA** `ATENDIMENTO` (0,n) — um médico realiza vários atendimentos
+- `ESPECIALIDADE` **CLASSIFICA** `ATENDIMENTO` (0,n) — uma especialidade classifica vários atendimentos
+- `ATENDIMENTO` **GERA** `PRESCRIÇÃO` (0,1) — um atendimento gera no máximo uma prescrição
+
+O atributo `anamnese_dinamica` é representado como **multivalorado composto** — sua estrutura interna varia conforme a especialidade do atendimento, justificando o uso do MongoDB como banco NoSQL.
+
+---
+
+## Etapa 3 — Modelagem Lógica
+
+### Alto Nível
+
+Mapeamento conceitual-lógico das coleções e seus relacionamentos:
+
+![Modelo Lógico Alto Nível](docs/modelo_alto_nivel.png)
+
+### Baixo Nível
+
+Estrutura real dos documentos de cada coleção no MongoDB:
+
+| Coleção | Schema |
+|---|---|
+| `especialidades` | ![Baixo Nível Especialidades](docs/baixo_nivel_especialidades.png) |
+| `atendimentos` | ![Baixo Nível Atendimentos](docs/baixo_nivel_atendimentos.png) |
+| `prescricoes` | ![Baixo Nível Prescrições](docs/baixo_nivel_prescricoes.png) |
+| `usuarios` | ![Baixo Nível Usuários](docs/baixo_nivel_usuarios.png) |
+
+---
+
+## � Etapa 4 — Scripts de Criação e Inserção de Dados
+
+No MongoDB não existem scripts DDL (`CREATE TABLE`, `CREATE DATABASE`) como no SQL. O banco de dados `prontu_db` e suas coleções são criados automaticamente pelo PyMongo no momento da primeira inserção — isso é uma característica fundamental do NoSQL orientado a documentos.
+
+### Script de criação do banco — `config/database.py`
+
+Equivalente ao `CREATE DATABASE` do SQL. Estabelece a conexão e retorna a instância do banco:
+
+```python
+from pymongo import MongoClient
+import os
+
+def get_database():
+    CONNECTION_STRING = os.environ.get("MONGO_URI", "mongodb://localhost:27017/")
+    client = MongoClient(CONNECTION_STRING)
+    return client['prontu_db']  # cria o banco automaticamente se não existir
+```
+
+### Script de inserção de dados — `seed.py`
+
+Equivalente aos `INSERT INTO` do SQL. Popula as 4 coleções do banco com dados reais:
+
+```python
+# Importa os JSONs da pasta /data e insere no MongoDB
+db[colecao].insert_many(documentos)
+```
+
+Para rodar manualmente:
+```bash
+python seed.py
+```
+
+### Dados iniciais — pasta `/data`
+
+Os arquivos JSON são o equivalente aos scripts de `INSERT INTO`:
+
+| Arquivo | Coleção | Registros |
+|---|---|---|
+| `data/especialidades.json` | `especialidades` | 6 especialidades com campos clínicos |
+| `data/atendimentos.json` | `atendimentos` | 13 atendimentos com anamnese dinâmica |
+| `data/prescricoes.json` | `prescricoes` | 5 prescrições médicas |
+| `data/usuarios.json` | `usuarios` | 5 médicos cadastrados |
+
+> O `seed.py` só insere dados se a coleção estiver vazia, evitando duplicatas. Para reimportar, use `docker compose down -v` antes de subir novamente.
+
+---
+
+## ��️ Banco de Dados — MongoDB (NoSQL)
 Banco: `prontu_db` | 4 coleções
 
 ### `usuarios`
@@ -236,3 +321,5 @@ Os seguintes médicos já estão importados pelo seed. Use para testar o login:
 | Jinja2 | Engine de templates HTML |
 | Bootstrap 5 | Interface responsiva |
 | JavaScript | Montagem dinâmica dos campos do formulário |
+
+
