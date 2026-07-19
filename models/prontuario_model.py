@@ -26,8 +26,28 @@ class ProntuarioModel:
         return list(atendimentos_collection.find().sort("data_consulta", -1))
 
     @staticmethod
+    def buscar_por_id(atendimento_id):
+        """Busca um atendimento pelo seu ObjectId"""
+        from bson.objectid import ObjectId
+        return atendimentos_collection.find_one({"_id": ObjectId(atendimento_id)})
+
+    @staticmethod
+    def atualizar(atendimento_id, dados_atualizados):
+        """Atualiza um documento de prontuário existente"""
+        from bson.objectid import ObjectId
+        atendimentos_collection.update_one(
+            {"_id": ObjectId(atendimento_id)},
+            {"$set": dados_atualizados}
+        )
+
+    @staticmethod
+    def excluir(atendimento_id):
+        """Remove um prontuário pelo seu ObjectId"""
+        from bson.objectid import ObjectId
+        atendimentos_collection.delete_one({"_id": ObjectId(atendimento_id)})
+
+    @staticmethod
     def listar_especialidades():
         """Busca todas as especialidades e seus campos dinâmicos do banco"""
         db = get_database()
-        # Busca da nova coleção que criamos no Compass
         return list(db['especialidades'].find({}, {"_id": 0}))

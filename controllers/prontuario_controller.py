@@ -134,3 +134,88 @@ def novo_prontuario():
         
     lista_especialidades = ProntuarioModel.listar_especialidades()
     return render_template('novo_prontuario.html', especialidades=lista_especialidades)
+
+
+# 3. ROTA DE EDIÇÃO: Editar prontuário existente
+@prontuario_blueprint.route('/editar/<atendimento_id>', methods=['GET', 'POST'])
+def editar_prontuario(atendimento_id):
+    if 'usuario_id' not in session:
+        return redirect(url_for('auth.login'))
+
+    atendimento = ProntuarioModel.buscar_por_id(atendimento_id)
+
+    if not atendimento:
+        flash("Prontuário não encontrado.", "danger")
+        return redirect(url_for('prontuario.index'))
+
+    # Apenas o médico dono pode editar
+    if str(atendimento['medico_id']).strip() != str(session['usuario_id']).strip():
+        flash("Acesso negado: você não pode editar este prontuário.", "danger")
+        return redirect(url_for('prontuario.index'))
+
+    if request.method == 'POST':
+        imagem_url = atendimento.get('imagem_url')
+        if 'foto_exame' in request.files:
+            file = request.files['foto_exame']
+            if file and arquivo_permitido(file.filename):
+                filename = secure_filename(f"{datetime.now().timestamp()}_{file.filename}")
+                filepath = os.path.join(current_app.config['UPLOAD_FOLDER'], filename)
+                file.save(filepath)
+                imagem_url = f"/static/uploads/{filename}"
+
+        dados_atualizados = {
+            "paciente_nome": request.form.get("paciente_nome", "").strip(),
+            "paciente_idade": request.form.get("paciente_idade", "").strip(),
+            "paciente_genero": request.form.get("paciente_genero", "").strip(),
+            "paciente_contato": request.form.get("paciente_contato", "").strip(),
+            "imagem_url": imagem_url,
+            "anamnese_dinamica": {}
+        }
+
+        campos_fixos = ['paciente_nome', 'paciente_cpf', 'paciente_idade', 'paciente_genero', 'paciente_contato', 'especialidade', 'foto_exame']
+        for chave, valor in request.form.items():
+            if chave not in campos_fixos and valor:
+                dados_atualizados["anamnese_dinamica"][chave] = valor
+
+        ProntuarioModel.atualizar(atendimento_id, dados_atualizados)
+        flash("Prontuário atualizado com sucesso!", "success")
+        return redirect(url_for('prontuario.index'))
+
+    lista_especialidades = ProntuarioModel.listar_especialidades()
+    return render_template('editar_prontuario.html', atendimento=atendimento, especialidades=lista_especialidades)
+
+
+# 4. ROTA DE EXCLUSÃO: Excluir prontuário e sua prescrição vinculada
+@prontuario_blueprint.route('/excluir/<atendimento_id>', methods=['POST'])
+def excluir_prontuario(atendimento_id):
+    if 'usuario_id' not in session:
+        return redirect(url_for('auth.login'))
+
+    atendimento = ProntuarioModel.buscar_por_id(atendimento_id)
+
+    if not atendimento:
+        flash("Prontuário não encontrado.", "danger")
+        return redirect(url_for('prontuario.index'))
+
+    # Apenas o médico dono pode excluir
+    if str(atendimento['medico_id']).strip() != str(session['usuario_id']).strip():
+        flash("Acesso negado: você não pode excluir este prontuário.", "danger")
+        return redirect(url_for('prontuario.index'))
+
+    from config.database import get_database
+    from bson.objectid import ObjectId
+    db = get_database()
+
+    # Remove a prescrição vinculada (se houver)
+    db['prescricoes'].delete_one({
+        "$or": [
+            {"atendimento_id": atendimento["_id"]},
+            {"atendimento_id": str(atendimento["_id"])}
+        ]
+    })
+
+    # Remove o prontuário
+    ProntuarioModel.excluir(atendimento_id)
+
+    flash("Prontuário excluído com sucesso.", "success")
+    return redirect(url_for('prontuario.index'))
