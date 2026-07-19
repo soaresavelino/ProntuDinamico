@@ -31,7 +31,7 @@ def nova_prescricao(atendimento_id):
         flash("Atendimento clínico não encontrado.", "danger")
         return redirect(url_for('prontuario.index'))
 
-    # 🔒 TRAVA DE IDENTIDADE
+    #  TRAVA DE IDENTIDADE
     if not ids_iguais(atendimento['medico_id'], session['usuario_id']):
         flash(f"Acesso negado: Este atendimento é de responsabilidade do(a) Dr(a). {atendimento['medico_nome']}.", "danger")
         return redirect(url_for('prontuario.index'))
@@ -51,7 +51,7 @@ def salvar_prescricao(atendimento_id):
         flash("Atendimento clínico não encontrado.", "danger")
         return redirect(url_for('prontuario.index'))
 
-    # 🔒 TRAVA DE IDENTIDADE no POST
+    #  TRAVA DE IDENTIDADE no POST
     if not ids_iguais(atendimento['medico_id'], session['usuario_id']):
         flash("Operação não autorizada.", "danger")
         return redirect(url_for('prontuario.index'))

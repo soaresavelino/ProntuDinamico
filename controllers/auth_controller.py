@@ -14,7 +14,7 @@ def login():
         if usuario:
             session['usuario_id'] = str(usuario['_id'])
             session['usuario_nome'] = usuario['nome']
-            # 🌟 ADICIONADO: Grava a especialidade na sessão
+            #  ADICIONADO: Grava a especialidade na sessão
             session['usuario_especialidade'] = usuario.get('especialidade', 'Geral')
             return redirect(url_for('prontuario.index'))
         
