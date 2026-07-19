@@ -102,8 +102,6 @@ Estrutura real dos documentos de cada coleção no MongoDB:
 | `prescricoes` | ![Baixo Nivel Prescricoes](docs/baixo_nivel_prescricoes.png) |
 | `usuarios` | ![Baixo Nivel Usuarios](docs/baixo_nivel_usuarios.png) |
 
-O campo `anamnese_dinamica` aparece com tipo `{}` (mixed) na coleção `atendimentos`, evidenciando o documento polimórfico — onde a estrutura interna varia por especialidade. O campo `imagem_url` aparece como `(mixed)` pois pode ser string ou null dependendo do atendimento.
-
 ---
 
 ## Etapa 4 — Scripts de Criacao e Insercao de Dados
