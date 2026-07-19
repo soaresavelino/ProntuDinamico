@@ -81,14 +81,6 @@ Diagrama Entidade-Relacionamento do sistema, elaborado com notação ER no brMod
 
 ![Diagrama Conceitual](docs/diagrama_conceitual.png)
 
-**Relacionamentos:**
-- `USUARIO` **PERTENCE A** `ESPECIALIDADE` (1,1) — cada médico pertence a uma especialidade
-- `USUARIO` **REALIZA** `ATENDIMENTO` (0,n) — um médico realiza vários atendimentos
-- `ESPECIALIDADE` **CLASSIFICA** `ATENDIMENTO` (0,n) — uma especialidade classifica vários atendimentos
-- `ATENDIMENTO` **GERA** `PRESCRICAO` (0,1) — um atendimento gera no máximo uma prescrição
-
-O atributo `anamnese_dinamica` é representado como **multivalorado composto** — sua estrutura interna varia conforme a especialidade do atendimento, justificando o uso do MongoDB como banco NoSQL.
-
 ---
 
 ## Etapa 3 — Modelagem Logica
