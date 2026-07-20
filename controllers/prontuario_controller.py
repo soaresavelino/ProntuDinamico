@@ -2,15 +2,30 @@ from flask import Blueprint, render_template, request, redirect, url_for, sessio
 from models.prontuario_model import ProntuarioModel
 from datetime import datetime
 import os
-from werkzeug.utils import secure_filename
+import base64
 
 prontuario_blueprint = Blueprint('prontuario', __name__)
 
 # Extensões de imagem permitidas para os prontuários
-ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif', 'webp'}
 
 def arquivo_permitido(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+def converter_para_base64(file):
+    """Lê um arquivo de imagem e retorna uma data URI base64 para armazenar no MongoDB."""
+    extensao = file.filename.rsplit('.', 1)[1].lower()
+    mime_types = {
+        'jpg': 'image/jpeg',
+        'jpeg': 'image/jpeg',
+        'png': 'image/png',
+        'gif': 'image/gif',
+        'webp': 'image/webp',
+    }
+    mime = mime_types.get(extensao, 'image/jpeg')
+    dados = file.read()
+    b64 = base64.b64encode(dados).decode('utf-8')
+    return f"data:{mime};base64,{b64}"
 
 
 # 1. ROTA PRINCIPAL: Tela de Listagem com Busca por Nome/CPF e Filtro por Especialidade
@@ -97,14 +112,17 @@ def novo_prontuario():
             return render_template('novo_prontuario.html', especialidades=lista_especialidades)
 
         # Se passou na validação, segue o fluxo normal de salvamento
+        # Upload de arquivo tem prioridade sobre URL externa
         imagem_url = None
         if 'foto_exame' in request.files:
             file = request.files['foto_exame']
-            if file and arquivo_permitido(file.filename):
-                filename = secure_filename(f"{datetime.now().timestamp()}_{file.filename}")
-                filepath = os.path.join(current_app.config['UPLOAD_FOLDER'], filename)
-                file.save(filepath)
-                imagem_url = f"/static/uploads/{filename}"
+            if file and file.filename and arquivo_permitido(file.filename):
+                imagem_url = converter_para_base64(file)
+
+        if not imagem_url:
+            url_externa = request.form.get('imagem_url_externa', '').strip()
+            if url_externa:
+                imagem_url = url_externa
 
         # O dicionário agora armazena também idade, gênero e contato de forma fixa na raiz do documento
         atendimento = {
@@ -157,11 +175,13 @@ def editar_prontuario(atendimento_id):
         imagem_url = atendimento.get('imagem_url')
         if 'foto_exame' in request.files:
             file = request.files['foto_exame']
-            if file and arquivo_permitido(file.filename):
-                filename = secure_filename(f"{datetime.now().timestamp()}_{file.filename}")
-                filepath = os.path.join(current_app.config['UPLOAD_FOLDER'], filename)
-                file.save(filepath)
-                imagem_url = f"/static/uploads/{filename}"
+            if file and file.filename and arquivo_permitido(file.filename):
+                imagem_url = converter_para_base64(file)
+
+        if not imagem_url or imagem_url == atendimento.get('imagem_url'):
+            url_externa = request.form.get('imagem_url_externa', '').strip()
+            if url_externa:
+                imagem_url = url_externa
 
         dados_atualizados = {
             "paciente_nome": request.form.get("paciente_nome", "").strip(),

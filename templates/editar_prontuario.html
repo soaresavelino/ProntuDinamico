@@ -60,10 +60,22 @@
                         <label class="form-label">Anexar Nova Foto de Exame (opcional)</label>
                         <input type="file" name="foto_exame" class="form-control" accept="image/*">
                         {% if atendimento.imagem_url %}
-                        <small class="text-muted">Imagem atual:
-                            <a href="{{ atendimento.imagem_url }}" target="_blank">ver imagem</a>
-                        </small>
+                        <div class="mt-2 text-center">
+                            <small class="text-muted d-block mb-1">Imagem atual:</small>
+                            <img src="{{ atendimento.imagem_url }}" class="img-fluid rounded"
+                                style="max-height: 120px; object-fit: contain;" alt="Exame atual">
+                        </div>
                         {% endif %}
+                    </div>
+
+                    <!-- URL externa de imagem -->
+                    <div class="mb-3">
+                        <label for="imagem_url_externa" class="form-label">Ou informe a URL de uma imagem
+                            (opcional)</label>
+                        <input type="url" id="imagem_url_externa" name="imagem_url_externa" class="form-control"
+                            placeholder="https://exemplo.com/imagem.jpg">
+                        <div class="form-text text-muted">Se preencher os dois campos, o arquivo enviado tem prioridade.
+                        </div>
                     </div>
 
                     <hr>
